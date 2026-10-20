@@ -1,7 +1,7 @@
 package interpreter.model.adt.stack;
 
 import interpreter.exceptions.ADTException;
-import interpreter.exceptions.StackEmptyException;
+
 import java.util.List;
 
 public interface IStack<T> {

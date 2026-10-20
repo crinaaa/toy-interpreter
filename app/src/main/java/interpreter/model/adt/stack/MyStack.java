@@ -1,7 +1,6 @@
 package interpreter.model.adt.stack;
 
 import interpreter.exceptions.ADTException;
-import interpreter.exceptions.StackEmptyException;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

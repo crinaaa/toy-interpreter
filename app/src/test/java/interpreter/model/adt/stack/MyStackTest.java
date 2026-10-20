@@ -1,11 +1,8 @@
 package interpreter.model.adt.stack;
 
 import interpreter.exceptions.ADTException;
-import interpreter.exceptions.StackEmptyException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
