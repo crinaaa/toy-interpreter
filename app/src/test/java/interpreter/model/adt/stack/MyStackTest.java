@@ -1,5 +1,6 @@
 package interpreter.model.adt.stack;
 
+import interpreter.exceptions.ADTException;
 import interpreter.exceptions.StackEmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class MyStackTest {
     }
 
     @Test
-    void testSuccessfulTop() throws StackEmptyException {
+    void testSuccessfulTop() throws ADTException {
         MyStack<Integer> stack = new MyStack<>();
         stack.push(10);
         stack.push(20);
@@ -36,11 +37,11 @@ class MyStackTest {
     @Test
     void testUnsuccessfulTop() {
         MyStack<Integer> stack = new MyStack<>();
-        assertThrowsExactly(StackEmptyException.class, stack::top);
+        assertThrowsExactly(ADTException.class, stack::top);
     }
 
     @Test
-    void testSuccessfulPop() throws StackEmptyException {
+    void testSuccessfulPop() throws ADTException {
         MyStack<Integer> stack = new MyStack<>();
         stack.push(10);
         stack.push(20);
@@ -51,7 +52,7 @@ class MyStackTest {
     @Test
     void testUnsuccessfulPop() {
         MyStack<Integer> stack = new MyStack<>();
-        assertThrowsExactly(StackEmptyException.class, stack::top);
+        assertThrowsExactly(ADTException.class, stack::top);
     }
 
     @Test
