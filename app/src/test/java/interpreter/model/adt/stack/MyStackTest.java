@@ -12,13 +12,13 @@ class MyStackTest {
     @Test
     void testPushAndSize() {
         MyStack<Integer> stack = new MyStack<>();
-        assertTrue(stack.Empty());
+        assertTrue(stack.isEmpty());
         assertEquals(0, stack.size());
 
         stack.push(10);
         stack.push(20);
 
-        assertFalse(stack.Empty());
+        assertFalse(stack.isEmpty());
         assertEquals(2, stack.size());
     }
 

@@ -34,7 +34,7 @@ public class MyStack<T> implements IStack<T>{
     }
 
     @Override
-    public boolean Empty() {
+    public boolean isEmpty() {
         return this.stack.isEmpty();
     }
 
