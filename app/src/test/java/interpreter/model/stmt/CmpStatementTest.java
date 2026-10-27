@@ -16,7 +16,7 @@ class CmpStatementTest {
     @BeforeEach
     void setup() throws ADTException {
         state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new NopStmt());
-        //state.getExeStack().pop();
+        state.getExeStack().pop();
     }
 
     @Test
