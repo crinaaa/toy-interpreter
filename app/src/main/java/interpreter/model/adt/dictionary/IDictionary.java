@@ -12,4 +12,5 @@ public interface IDictionary<K,V> {
     void remove(K key) throws ADTException;
     Map<K, V> getContent();
     String toString();
+    Map<K, V> toMap();
 }

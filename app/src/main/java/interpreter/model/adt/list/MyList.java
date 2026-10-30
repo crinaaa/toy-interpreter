@@ -43,7 +43,7 @@ public class MyList<T> implements IList<T>{
     }
 
     @Override
-    public List<T> getAll() {
+    public List<T> toList() {
         return new ArrayList<>(this.list);
     }
 

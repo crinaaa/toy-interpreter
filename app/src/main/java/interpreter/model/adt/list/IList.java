@@ -10,6 +10,6 @@ public interface IList<T> {
     T get(int index) throws ADTException;
     int size();
     String toString();
-    List<T> getAll();
+    List<T> toList();
     boolean isEmpty();
 }
