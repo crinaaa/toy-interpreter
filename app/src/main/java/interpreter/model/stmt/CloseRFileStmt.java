@@ -1,0 +1,40 @@
+package interpreter.model.stmt;
+
+import interpreter.exceptions.MyException;
+import interpreter.exceptions.StatementException;
+import interpreter.model.PrgState;
+import interpreter.model.exp.IExp;
+import interpreter.model.value.StringValue;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public record CloseRFileStmt(IExp exp) implements IStmt {
+    @Override
+    public PrgState execute(PrgState state) throws MyException {
+        var value = exp.eval(state.getSymTable());
+        if (!(value instanceof StringValue fileName))
+            throw new StatementException("closeRFile: Expression " + exp + " is not a string!");
+
+        var fileTable = state.getFileTable();
+        if (!fileTable.isDefined(fileName))
+            throw new StatementException("closeRFile: File " + fileName + " is not open in FileTable!");
+
+        BufferedReader reader = fileTable.lookup(fileName);
+
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new StatementException("closeRFile: Error closing file " + fileName + ": " + e.getMessage());
+        }
+
+        fileTable.remove(fileName);
+        return state;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "closeRFile(" + exp + ")";
+    }
+}
