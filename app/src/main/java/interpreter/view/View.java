@@ -40,15 +40,23 @@ public class View {
     }
 
     private void runProgram(IStmt program) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        System.out.print("Enter log file path (ex: log.txt): ");
+        String logFilePath = scanner.nextLine().trim();
+
+        if (logFilePath.isEmpty()) {
+            logFilePath = "log.txt"; // default fallback
+        }
+
         PrgState state = PrgState.of(program);
-        Controller controller = new Controller(new Repository(state), true);
+        Controller controller = new Controller(new Repository(state, logFilePath), true);
 
         try {
             controller.allStep();
-            System.out.println("\nExecution completed successfully.");
-            System.out.println("Final Output: " + state.getOut() + "\n");
+            System.out.println("\nExecution finished successfully.");
+            System.out.println("Final Output: " + state.getOut());
         } catch (Exception e) {
-            System.out.println("\nExecution error caught by view: " + e.getMessage() + "\n");
+            System.out.println("Execution error: " + e.getMessage());
         }
     }
 }
