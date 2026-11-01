@@ -9,11 +9,7 @@ import interpreter.model.adt.stack.MyStack;
 import interpreter.model.stmt.IStmt;
 import interpreter.model.value.IValue;
 import interpreter.model.value.StringValue;
-
-import javax.crypto.spec.IvParameterSpec;
 import java.io.BufferedReader;
-import java.time.chrono.IsoChronology;
-import java.util.BitSet;
 
 public class PrgState {
     private IStack<IStmt> exeStack;
@@ -68,7 +64,8 @@ public class PrgState {
     {
         return "=== Execution Stack ===\n" + exeStack + "\n" +
                 "=== Symbol Table ===\n" + symTable + "\n" +
-                "=== Output List ===\n" + out + "\n";
+                "=== Output List ===\n" + out + "\n" +
+                "=== File Table ===\n" + fileTable + "\n";
     }
 
     public String toLogString()
