@@ -4,6 +4,7 @@ import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.*;
 import interpreter.model.value.IntValue;
+import interpreter.model.value.StringValue;
 import interpreter.repository.IRepository;
 import interpreter.repository.Repository;
 import interpreter.view.Examples;
@@ -94,5 +95,32 @@ class ControllerTest {
         assertTrue(content.contains("SymTable:"));
         assertTrue(content.contains("Out:"));
         assertTrue(content.contains("FileTable:"));
+    }
+
+    @Test
+    void testExample4ExecutionReadsAndPrintsValues() throws Exception {
+        Path testFile = Path.of("test.in");
+        Files.writeString(testFile, "15\n50\n");
+
+        try {
+            PrgState state = run(Examples.EX4);
+
+            assertTrue(state.getExeStack().isEmpty());
+            assertEquals(2, state.getOut().size());
+            assertEquals(new IntValue(15), state.getOut().get(0));
+            assertEquals(new IntValue(50), state.getOut().get(1));
+            assertFalse(state.getFileTable().isDefined(new StringValue("test.in")));
+        } finally {
+            Files.deleteIfExists(testFile);
+        }
+    }
+
+    @Test
+    void testExample5ExecutionPrintsFive() throws MyException {
+        PrgState state = run(Examples.EX5);
+
+        assertTrue(state.getExeStack().isEmpty());
+        assertEquals(1, state.getOut().size());
+        assertEquals(new IntValue(5), state.getOut().get(0));
     }
 }

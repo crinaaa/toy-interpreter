@@ -82,7 +82,9 @@ public class PrgState {
         out.toList().forEach(v -> sb.append(v).append('\n'));
 
         sb.append("FileTable:\n");
-        fileTable.toMap().keySet().forEach(f -> sb.append(f.val()).append('\n'));
+        for (StringValue fileName : fileTable.toMap().keySet()) {
+            sb.append(fileName.val()).append("\n");
+        }
 
         return sb.toString();
     }

@@ -77,7 +77,7 @@ class ReadFileStmtTest {
     @Test
     void testReadFileNotOpenInTableThrows() throws Exception {
         new CloseRFileStmt(file).execute(state);
-        ReadFileStmt stmt = new ReadFileStmt(file, "v"); // 2. FIXED: Changed "x" to declared variable "v"
+        ReadFileStmt stmt = new ReadFileStmt(file, "v");
         assertThrows(StatementException.class, () -> stmt.execute(state));
     }
 }
