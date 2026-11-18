@@ -2,6 +2,8 @@ package interpreter.model;
 
 import interpreter.model.adt.dictionary.IDictionary;
 import interpreter.model.adt.dictionary.MyDictionary;
+import interpreter.model.adt.heap.IHeap;
+import interpreter.model.adt.heap.MyHeap;
 import interpreter.model.adt.list.IList;
 import interpreter.model.adt.list.MyList;
 import interpreter.model.adt.stack.IStack;
@@ -10,6 +12,7 @@ import interpreter.model.stmt.IStmt;
 import interpreter.model.value.IValue;
 import interpreter.model.value.StringValue;
 import java.io.BufferedReader;
+import java.util.Map;
 
 public class PrgState {
     private IStack<IStmt> exeStack;
@@ -18,13 +21,17 @@ public class PrgState {
     private final IStmt originalProgram;
     private IDictionary<StringValue, BufferedReader> fileTable;
 
+    //added for A4
+    private IHeap heap;
+
     public PrgState(IStack<IStmt> exeStack, IDictionary<String, IValue> symTable,
-                    IList<IValue> out, IDictionary<StringValue, BufferedReader> fileTable, IStmt originalProgram) {
+                    IList<IValue> out, IDictionary<StringValue, BufferedReader> fileTable, IHeap heap, IStmt originalProgram) {
         this.exeStack = exeStack;
         this.symTable = symTable;
         this.out = out;
         this.originalProgram = originalProgram;
         this.fileTable = fileTable;
+        this.heap = heap;
 
         this.exeStack.push(originalProgram);
     }
@@ -32,7 +39,7 @@ public class PrgState {
     public static PrgState of(IStmt originalProgram)
     {
         return new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(),
-                new MyDictionary<>(), originalProgram);
+                new MyDictionary<>(), new MyHeap(), originalProgram);
     }
 
     public IStack<IStmt> getExeStack()
@@ -52,6 +59,7 @@ public class PrgState {
     {
         return this.originalProgram;
     }
+    public IHeap getHeap() { return this.heap;}
 
     public void setExeStack(IStack<IStmt> exeStack) { this.exeStack = exeStack;}
     public void setSymTable(IDictionary<String, IValue> symTable) {this.symTable = symTable;}
@@ -65,7 +73,8 @@ public class PrgState {
         return "=== Execution Stack ===\n" + exeStack + "\n" +
                 "=== Symbol Table ===\n" + symTable + "\n" +
                 "=== Output List ===\n" + out + "\n" +
-                "=== File Table ===\n" + fileTable + "\n";
+                "=== File Table ===\n" + fileTable + "\n" +
+                "=== Heap ===\n" + heap;
     }
 
     public String toLogString()
@@ -85,6 +94,15 @@ public class PrgState {
         for (StringValue fileName : fileTable.toMap().keySet()) {
             sb.append(fileName.val()).append("\n");
         }
+
+        sb.append("Heap:\n");
+        heap.getContent().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry ->
+                        sb.append(entry.getKey())
+                                .append("-->")
+                                .append(entry.getValue())
+                                .append('\n'));
 
         return sb.toString();
     }
