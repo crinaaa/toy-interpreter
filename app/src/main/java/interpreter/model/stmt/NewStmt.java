@@ -25,4 +25,7 @@ public record NewStmt(String varName, IExp exp) implements IStmt {
         symTable.update(varName, new RefValue(address, ref.locationType()));
         return state;
     }
+
+    @Override public String toString()
+        { return "new(" + varName + ", " + exp + ")"; }
 }
