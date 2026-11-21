@@ -12,4 +12,5 @@ public interface IHeap {
     boolean isDefined(int address);
     Map<Integer, IValue> getContent(); // a read only copy
     void setContent(Map<Integer, IValue> content); // used by the garbage collector
+    String toString();
 }

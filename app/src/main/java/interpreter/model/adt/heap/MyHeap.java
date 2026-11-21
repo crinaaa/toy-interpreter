@@ -6,6 +6,7 @@ import interpreter.model.value.IValue;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MyHeap implements IHeap{
 
@@ -47,5 +48,10 @@ public class MyHeap implements IHeap{
     @Override
     public void setContent(Map<Integer, IValue> content) {
         heap = new HashMap<>(content);
+    }
+
+    @Override
+    public String toString() {
+        return new TreeMap<>(heap).toString();
     }
 }
