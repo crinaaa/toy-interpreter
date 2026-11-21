@@ -39,7 +39,7 @@ class OpenRFileStmtTest {
 
     @AfterEach
     void tearDown() throws IOException, MyException {
-        StringValue fileName = (StringValue) file.eval(state.getSymTable());
+        StringValue fileName = (StringValue) file.eval(state.getSymTable(), state.getHeap());
         if (state.getFileTable().isDefined(fileName)) {
             BufferedReader reader = state.getFileTable().lookup(fileName);
             reader.close();
@@ -51,7 +51,7 @@ class OpenRFileStmtTest {
         OpenRFileStmt stmt = new OpenRFileStmt(file);
         stmt.execute(state);
 
-        StringValue fileName = (StringValue) file.eval(state.getSymTable());
+        StringValue fileName = (StringValue) file.eval(state.getSymTable(), state.getHeap());
         assertTrue(state.getFileTable().isDefined(fileName));
     }
 

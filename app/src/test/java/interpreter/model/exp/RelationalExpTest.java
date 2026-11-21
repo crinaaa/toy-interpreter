@@ -4,6 +4,7 @@ import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
 import interpreter.model.adt.dictionary.IDictionary;
 import interpreter.model.adt.dictionary.MyDictionary;
+import interpreter.model.adt.heap.IHeap;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RelationalExpTest {
 
     private IDictionary<String, IValue> symTable;
+    private IHeap heap;
 
     @BeforeEach
     void setUp()
@@ -28,13 +30,13 @@ class RelationalExpTest {
         // 3<5 true
         RelationalExp trueExp = new RelationalExp(RelOp.LT, new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         //5<3 false
         RelationalExp falseExp = new RelationalExp(RelOp.LT,
                 new ValueExp(new IntValue(5)),
                 new ValueExp(new IntValue(3)));
-        assertNotEquals(new BoolValue(true), falseExp.eval(symTable));
+        assertNotEquals(new BoolValue(true), falseExp.eval(symTable, heap));
     }
 
     @Test
@@ -42,13 +44,13 @@ class RelationalExpTest {
         // 3<=3 true
         RelationalExp trueExp = new RelationalExp(RelOp.LE, new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(3)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         //5<=3 false
         RelationalExp falseExp = new RelationalExp(RelOp.LE,
                 new ValueExp(new IntValue(5)),
                 new ValueExp(new IntValue(3)));
-        assertNotEquals(new BoolValue(true), falseExp.eval(symTable));
+        assertNotEquals(new BoolValue(true), falseExp.eval(symTable, heap));
     }
 
     @Test
@@ -57,13 +59,13 @@ class RelationalExpTest {
         RelationalExp trueExp = new RelationalExp(RelOp.EQ,
                 new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(3)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         // 3 == 5 - false
         RelationalExp falseExp = new RelationalExp(RelOp.EQ,
                 new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(false), falseExp.eval(symTable));
+        assertEquals(new BoolValue(false), falseExp.eval(symTable, heap));
     }
 
     @Test
@@ -72,35 +74,35 @@ class RelationalExpTest {
         RelationalExp trueExp = new RelationalExp(RelOp.NE,
                 new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         // 3 != 3 - false
         RelationalExp falseExp = new RelationalExp(RelOp.NE,
                 new ValueExp(new IntValue(3)),
                 new ValueExp(new IntValue(3)));
-        assertEquals(new BoolValue(false), falseExp.eval(symTable));
+        assertEquals(new BoolValue(false), falseExp.eval(symTable, heap));
     }
 
     @Test
     void testGreaterThan() throws MyException {
         // 5 > 3 -> true
         RelationalExp trueExp = new RelationalExp(RelOp.GT, new ValueExp(new IntValue(5)), new ValueExp(new IntValue(3)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         // 3 > 5 -> false
         RelationalExp falseExp = new RelationalExp(RelOp.GT, new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(false), falseExp.eval(symTable));
+        assertEquals(new BoolValue(false), falseExp.eval(symTable, heap));
     }
 
     @Test
     void testGreaterThanOrEqual() throws MyException {
         // 5 >= 5 -> true
         RelationalExp trueExp = new RelationalExp(RelOp.GE, new ValueExp(new IntValue(5)), new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(true), trueExp.eval(symTable));
+        assertEquals(new BoolValue(true), trueExp.eval(symTable, heap));
 
         // 3 >= 5 -> false
         RelationalExp falseExp = new RelationalExp(RelOp.GE, new ValueExp(new IntValue(3)), new ValueExp(new IntValue(5)));
-        assertEquals(new BoolValue(false), falseExp.eval(symTable));
+        assertEquals(new BoolValue(false), falseExp.eval(symTable, heap));
     }
     @Test
     void testFirstOperandNotIntegerThrowsException() {
@@ -110,7 +112,7 @@ class RelationalExpTest {
                 new ValueExp(new IntValue(5))
         );
 
-        assertThrowsExactly(ExpressionException.class, () -> exp.eval(symTable));
+        assertThrowsExactly(ExpressionException.class, () -> exp.eval(symTable, heap));
     }
 
     @Test
@@ -121,6 +123,6 @@ class RelationalExpTest {
                 new ValueExp(new BoolValue(true))
         );
 
-        assertThrowsExactly(ExpressionException.class, () -> exp.eval(symTable));
+        assertThrowsExactly(ExpressionException.class, () -> exp.eval(symTable, heap));
     }
 }

@@ -8,7 +8,7 @@ public record PrintStmt(IExp exp)  implements IStmt{
     @Override
     public PrgState execute(PrgState state) throws MyException {
         var out = state.getOut();
-        var val = exp.eval(state.getSymTable());
+        var val = exp.eval(state.getSymTable(), state.getHeap());
         out.add(val);
         return state;
     }

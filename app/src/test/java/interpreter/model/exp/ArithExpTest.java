@@ -4,20 +4,26 @@ import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
 import interpreter.model.adt.dictionary.IDictionary;
 import interpreter.model.adt.dictionary.MyDictionary;
+import interpreter.model.adt.heap.IHeap;
+import interpreter.model.adt.heap.MyHeap;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.channels.MulticastChannel;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArithExpTest {
     private IDictionary<String, IValue> symTable;
+    private IHeap heap;
 
     @BeforeEach
     void setUp() {
         symTable = new MyDictionary<>();
+        heap = new MyHeap();
     }
 
     @Test
@@ -30,10 +36,10 @@ class ArithExpTest {
         IExp mul = new ArithExp(ArithOp.MUL, e1, e2);
         IExp div = new ArithExp(ArithOp.DIV, e1, e2);
 
-        assertEquals(new IntValue(12), add.eval(symTable));
-        assertEquals(new IntValue(8), sub.eval(symTable));
-        assertEquals(new IntValue(20), mul.eval(symTable));
-        assertEquals(new IntValue(5), div.eval(symTable));
+        assertEquals(new IntValue(12), add.eval(symTable, heap));
+        assertEquals(new IntValue(8), sub.eval(symTable, heap));
+        assertEquals(new IntValue(20), mul.eval(symTable, heap));
+        assertEquals(new IntValue(5), div.eval(symTable, heap));
 
         assertEquals("(10 + 2)", add.toString());
     }
@@ -44,7 +50,7 @@ class ArithExpTest {
         IExp e2 = new ValueExp(new IntValue(0));
         IExp div = new ArithExp(ArithOp.DIV, e1, e2);
 
-        assertThrowsExactly(ExpressionException.class, () -> div.eval(symTable));
+        assertThrowsExactly(ExpressionException.class, () -> div.eval(symTable, heap));
     }
 
     @Test
@@ -53,7 +59,7 @@ class ArithExpTest {
         IExp e1 = new ValueExp(new BoolValue(false));
         IExp e2 = new ValueExp(new IntValue(5));
         IExp add = new ArithExp(ArithOp.ADD, e1, e2);
-        assertThrowsExactly(ExpressionException.class, () -> add.eval(symTable));
+        assertThrowsExactly(ExpressionException.class, () -> add.eval(symTable, heap));
     }
 
     @Test
@@ -62,6 +68,6 @@ class ArithExpTest {
         IExp e1 = new ValueExp(new IntValue(5));
         IExp e2 = new ValueExp(new BoolValue(false));
         IExp add = new ArithExp(ArithOp.ADD, e1, e2);
-        assertThrowsExactly(ExpressionException.class, () -> add.eval(symTable));
+        assertThrowsExactly(ExpressionException.class, () -> add.eval(symTable, heap));
     }
 }

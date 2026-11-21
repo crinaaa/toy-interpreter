@@ -4,6 +4,8 @@ import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
 import interpreter.model.adt.dictionary.IDictionary;
 import interpreter.model.adt.dictionary.MyDictionary;
+import interpreter.model.adt.heap.IHeap;
+import interpreter.model.adt.heap.MyHeap;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
@@ -14,11 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LogicExpTest {
     private IDictionary<String, IValue> symTable;
+    private IHeap heap;
 
     @BeforeEach
     void setup()
     {
         symTable = new MyDictionary<>();
+        heap = new MyHeap();
     }
 
     @Test
@@ -29,8 +33,8 @@ class LogicExpTest {
         IExp andExp = new LogicExp(LogicOp.AND, t, f);
         IExp orExp = new LogicExp(LogicOp.OR, t, f);
 
-        assertEquals(new BoolValue(false), andExp.eval(symTable));
-        assertEquals(new BoolValue(true), orExp.eval(symTable));
+        assertEquals(new BoolValue(false), andExp.eval(symTable, heap));
+        assertEquals(new BoolValue(true), orExp.eval(symTable, heap));
 
         assertEquals("(true && false)", andExp.toString());
     }
@@ -42,7 +46,7 @@ class LogicExpTest {
         IExp o2 = new ValueExp(new BoolValue(true));
         IExp e = new LogicExp(LogicOp.AND, o1, o2);
 
-        assertThrowsExactly(MyException.class, () -> e.eval(symTable));
+        assertThrowsExactly(MyException.class, () -> e.eval(symTable, heap));
     }
 
     @Test
@@ -52,6 +56,6 @@ class LogicExpTest {
         IExp o2 = new ValueExp(new IntValue(6));
         IExp e = new LogicExp(LogicOp.OR, o1, o2);
 
-        assertThrowsExactly(MyException.class, () -> e.eval(symTable));
+        assertThrowsExactly(MyException.class, () -> e.eval(symTable, heap));
     }
 }
