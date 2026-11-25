@@ -1,5 +1,7 @@
 package interpreter.controller;
 
+import interpreter.exceptions.MyException;
+import interpreter.model.stmt.*;
 import interpreter.model.type.IntType;
 import interpreter.model.type.RefType;
 import interpreter.model.value.IValue;
@@ -12,6 +14,20 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import interpreter.model.PrgState;
+import interpreter.model.exp.ArithExp;
+import interpreter.model.exp.ArithOp;
+import interpreter.model.exp.RelationalExp;
+import interpreter.model.exp.RelOp;
+import interpreter.model.exp.ValueExp;
+import interpreter.model.exp.VarExp;
+import interpreter.repository.Repository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.Path;
+import java.util.List;
 
 class GarbageCollectorTest {
     private final List<IValue> symTable = List.of(

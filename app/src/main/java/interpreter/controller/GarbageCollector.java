@@ -15,7 +15,7 @@ public final class GarbageCollector {
                 .filter(v -> v instanceof RefValue)
                 .map(v -> ((RefValue) v).address())
                 .collect(Collectors.toSet());
-    }
+    }  //returns the set of the addresses in the heap
 
     /* ---> this is the unsafe version!!
 
@@ -25,7 +25,8 @@ public final class GarbageCollector {
         return heap.entrySet().stream()
                 .filter(e -> symTableAddr.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
+    }  //this iterates through the heap and keeps only the entries whose keys
+       //appear in the set computed above
 
     */
 
@@ -41,7 +42,7 @@ public final class GarbageCollector {
                 toVisit.push(ref.address());               // follow the reference
         }
         return visited;
-    }
+    }   //we also keep track of the addressed that are referenced indirectly
 
     public static Map<Integer, IValue> safeGarbageCollector(Set<Integer> symTableAddr,
                                                             Map<Integer, IValue> heap) {
@@ -49,5 +50,8 @@ public final class GarbageCollector {
         return heap.entrySet().stream()
                 .filter(e -> reachable.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        //and now we do the mapping, similar to how we did it in the
+        //initial(unsafe) version
     }
 }
